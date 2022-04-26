@@ -1,4 +1,4 @@
-# {{cookiecutter.project_name}}'s documentation
+# {{cookiecutter.friendly_name}}'s documentation
 
 ```{toctree}
 ---

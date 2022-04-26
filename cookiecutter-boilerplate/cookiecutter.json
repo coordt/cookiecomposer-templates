@@ -7,9 +7,6 @@
   "author": "Data Science Team",
   "email": "you@chrobinson.com",
   "github_user": "ch-robinson-internal",
-  "_copy_without_render": [
-    "docsrc/**/*.rst"
-  ],
   "_prod_requirements": {
     "elastic-apm": ">=6.6.3",
     "environs": ">=9.3.5"
@@ -18,16 +15,9 @@
     "black": ">=19.10b0",
     "coverage": ">=6.1.2",
     "flake8": ">=4.0.1",
-    "ghp-import": "",
-    "linkify-it-py":  "",
-    "myst-parser": "",
     "pre-commit": ">=2.15.0",
-    "pydata-sphinx-theme": "",
     "pytest-cov": ">=3.0.0",
     "pytest": ">=6.0.0",
-    "Sphinx": ">=4.3.0",
-    "sphinx-autodoc-typehints": "",
-    "sphinx-click":  "",
     "twine": ">=3.6.0",
     "wheel": ">=0.37.0"
   },
