@@ -1,0 +1,143 @@
+name: $(Date:yyyyMMdd)$(Rev:.r)
+
+trigger:
+  branches:
+    include:
+      - 'master'
+  tags:
+    include:
+      - '*'
+
+pr:
+  - master
+
+variables:
+  currentDate: '$(Date:yyyy-MM-dd)T$(Time:hh-mm-ss)Z'
+  pythonVersion: 3.8
+  srcDirectory: {{ cookiecutter.project_slug }}
+  moduleName: '{{ cookiecutter.project_slug }}'
+  registryName: 'datascience/$(moduleName)'
+  pip_cache_dir: '$(Pipeline.Workspace)/.pip'
+
+parameters:
+  - name: containerImage
+    type: string
+    default: artifactory.chrobinson.com:5005/chr/devops-python-build:20210930.2
+
+pool: 'OnPrem Agents - Prod - Lin'
+
+jobs:
+  - job: Test
+    displayName: Run Tests & Sonarqube Analysis
+    container: ${{ '{{' }} parameters.containerImage }}
+    steps:
+        - task: Cache@2
+          inputs:
+            key: 'pip | "$(Agent.OS)" | requirements.txt'
+            restoreKeys: |
+              pip | "$(Agent.OS)"
+            path: $(pip_cache_dir)
+          displayName: Cache pip
+
+        - task: PipAuthenticate@1
+          displayName: 'Authenticate to project PyPI'
+          inputs:
+            pythonDownloadServiceConnections: 'CHRArtifactory - Pip-Data and Analytics Partners'
+            onlyAddExtraIndex: true
+
+        - script: |
+            python -m pip install --upgrade pip
+            pip install -r requirements/test.txt
+          displayName: 'Install dependencies'
+
+        - task: CmdLine@2
+          inputs:
+            script: "flake8"
+            workingDirectory: $(srcDirectory)
+          displayName: "Linting: flake8"
+
+        - script: |
+            pytest
+          displayName: "Run tests"
+
+        - task: PublishTestResults@2
+          inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: '**/junit-results.xml'
+            testRunTitle: '$(Agent.OS) - $(Build.BuildNumber)[$(Agent.JobName)] - Python $(pythonVersion)'
+          condition: succeededOrFailed()
+
+        - task: PublishCodeCoverageResults@1
+          inputs:
+            workingDirectory:  $(Agent.BuildDirectory)
+            codeCoverageTool: Cobertura
+            summaryFileLocation: '**/coverage.xml'
+            reportDirectory: '**/htmlcov'
+
+#        - task: SonarQubePrepare@4
+#          inputs:
+#            SonarQube: 'SonarQube'
+#            scannerMode: 'CLI'
+#            configMode: 'manual'
+#            cliProjectKey: '$(moduleName)'
+#            cliProjectName: '$(moduleName)'
+#            cliSources: '$(srcDirectory)'
+#            extraProperties: |
+#              sonar.language=python
+#              sonar.exclusions=**/*.bin
+#              sonar.python.coverage.reportPaths=coverage.xml
+#              sonar.scm.disabled=true
+#              sonar.projectVersion=1.6.6
+#
+#        - task: SonarQubeAnalyze@4
+#
+#        - task: SonarQubePublish@4
+#          inputs:
+#            pollingTimeoutSec: '300'
+
+  - job: ArtifactoryPackage
+    displayName: Package the module for Artifactory
+    container: ${{ '{{' }} parameters.containerImage }}
+    dependsOn: Test
+    condition: and(succeeded(), startsWith(variables['build.sourceBranch'], 'refs/tags/'))
+    steps:
+      - script: |
+          pip install wheel twine
+        displayName: 'Install packaging requirements'
+
+      - script: |
+          python setup.py bdist_wheel
+        displayName: 'Package module'
+
+      - task: TwineAuthenticate@1
+        displayName: 'Authenticate to project PyPI'
+        inputs:
+          pythonUploadServiceConnection: 'CHRArtifactory - Twine-Data and Analytics Partners'
+
+      - script: |
+          python -m twine upload -r chr --config-file $(PYPIRC_PATH) dist/*
+        displayName: 'Upload package to Artifactory'
+
+  - job: Publish
+    displayName: Publish the Docs
+    container: ${{ '{{' }} parameters.containerImage }}
+    dependsOn: Test
+    condition: and(succeeded(), startsWith(variables['build.sourceBranch'], 'refs/tags/'))
+    steps:
+        - checkout: self
+          persistCredentials: true
+
+        - task: PipAuthenticate@1
+          inputs:
+            pythonDownloadServiceConnections: 'CHRArtifactory - Pip-Data and Analytics Partners'
+            onlyAddExtraIndex: true
+
+        - script: |
+            apt-get install -y make
+            python -m pip install --upgrade pip
+            pip install -r requirements/test.txt
+          displayName: 'Install dependencies'
+
+        - script: |
+            make pubdocs
+          displayName: Make and publish the docs

@@ -1,0 +1,7 @@
+{
+  "project_name": "python-package",
+  "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+  "friendly_name": "{{ cookiecutter.project_name.replace('-', ' ').title() }}",
+  "project_short_description": "",
+  "version": "0.1.0"
+}

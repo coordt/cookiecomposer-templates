@@ -1,0 +1,40 @@
+{
+  "project_name": "python-boilerplate",
+  "project_slug": "{{ cookiecutter.project_name.replace('-', '_') }}",
+  "friendly_name": "{{ cookiecutter.project_name.replace('-', ' ').title() }}",
+  "project_short_description": "",
+  "version": "0.1.0",
+  "author": "Data Science Team",
+  "email": "you@chrobinson.com",
+  "github_user": "ch-robinson-internal",
+  "_copy_without_render": [
+    "docsrc/**/*.rst"
+  ],
+  "_prod_requirements": {
+    "elastic-apm": ">=6.6.3",
+    "environs": ">=9.3.5"
+  },
+  "_test_requirements": {
+    "black": ">=19.10b0",
+    "coverage": ">=6.1.2",
+    "flake8": ">=4.0.1",
+    "ghp-import": "",
+    "linkify-it-py":  "",
+    "myst-parser": "",
+    "pre-commit": ">=2.15.0",
+    "pydata-sphinx-theme": "",
+    "pytest-cov": ">=3.0.0",
+    "pytest": ">=6.0.0",
+    "Sphinx": ">=4.3.0",
+    "sphinx-autodoc-typehints": "",
+    "sphinx-click":  "",
+    "twine": ">=3.6.0",
+    "wheel": ">=0.37.0"
+  },
+  "_dev_requirements": {
+    "bump2version": ">=1.0.1",
+    "git-fame": ">=1.12.2",
+    "gitchangelog": ">=3.0.4",
+    "pystache": ">=0.6.0"
+  }
+}

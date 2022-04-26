@@ -1,0 +1,6 @@
+--find-links https://github.com/PennyDreadfulMTG/pystache/releases/
+-r test.txt
+
+{%- for pkg, version in cookiecutter._dev_requirements.items() %}
+{{ pkg }}{{ version }}
+{%- endfor %}

@@ -1,0 +1,25 @@
+{
+  "project_name": "python-docs",
+  "project_slug": "{{ cookiecutter.project_name.replace('-', '_') }}",
+  "friendly_name": "{{ cookiecutter.project_name.replace('-', ' ').title() }}",
+  "project_short_description": "",
+  "version": "0.1.0",
+  "author": "Data Science Team",
+  "email": "you@chrobinson.com",
+  "github_user": "ch-robinson-internal",
+  "_copy_without_render": [
+    "docsrc/**/*.rst"
+  ],
+  "_prod_requirements": {},
+  "_test_requirements": {
+    "ghp-import": "",
+    "linkify-it-py":  "",
+    "myst-parser": "",
+    "furo": "",
+    "Sphinx": ">=4.3.0",
+    "sphinx-autodoc-typehints": "",
+    "sphinx-click":  "",
+    "sphinx-copybutton": ""
+  },
+  "_dev_requirements": {}
+}
