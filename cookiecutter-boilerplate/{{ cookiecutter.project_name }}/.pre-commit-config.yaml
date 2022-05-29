@@ -44,6 +44,7 @@ repos:
     rev: v1.8.1
     hooks:
       - id: darglint
+        exclude: test.*
         args:
           - -v 2
           - "--message-template={path}:{line} in `{obj}`:\n        {msg_id}: {msg}"
