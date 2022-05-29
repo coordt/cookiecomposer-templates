@@ -7,7 +7,7 @@
     "docsrc/**/*.rst"
   ],
   "_prod_requirements": {},
-  "_test_requirements": {
+  "_docs_requirements": {
     "ghp-import": "",
     "linkify-it-py":  "",
     "myst-parser": "",
