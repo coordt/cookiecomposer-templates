@@ -25,6 +25,16 @@ release-major: do-release  ## Release a new major version: 1.1.1 -> 2.0.0
 
 release-version: get-version do-release  ## Release a specific version: release-version 1.2.3
 
+docs: ## generate Sphinx HTML documentation, including API docs
+	mkdir -p docs
+	rm -rf docsrc/_autosummary
+	ls -A1 docs | xargs -I {} rm -rf docs/{}
+	$(MAKE) -C docsrc clean html
+	cp -a docsrc/_build/html/. docs
+
+pubdocs: docs ## Publish the documentation to GitHub
+	ghp-import -op docs
+
 #
 # Helper targets. Not meant to use directly
 #
@@ -42,8 +52,8 @@ do-release:
 	git fetch -p --all; \
 	gitchangelog; \
 	$(call EDIT_CHANGELOG); \
-	./tools/gen-codeowners.sh $(SOURCE_DIR) \
-	git add CODEOWNERS \
+	./tools/gen-codeowners.sh $(SOURCE_DIR); \
+	git add CODEOWNERS; \
 	export BRANCH_NAME=$(SHORT_BRANCH_NAME);bumpversion $(BUMPVERSION_OPTS) $(RELEASE_KIND) --allow-dirty; \
 	git push origin $(BRANCH_NAME); \
 	git push --tags;
