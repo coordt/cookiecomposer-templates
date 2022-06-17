@@ -1,2 +1,0 @@
-{% for pkg, version in _docs_requirements.items() %}
-{{ pkg }}{{ version }}

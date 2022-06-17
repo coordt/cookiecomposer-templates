@@ -1,3 +1,0 @@
--r test.txt
-{% for pkg, version in _dev_requirements.items() %}
-{{ pkg }}{{ version }}

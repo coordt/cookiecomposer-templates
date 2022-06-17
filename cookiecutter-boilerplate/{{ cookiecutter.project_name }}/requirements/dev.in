@@ -1,0 +1,5 @@
+-c test.txt
+-c docs.txt
+{% for pkg, version in cookiecutter._dev_requirements.items() %}
+{{ pkg }}{{ version }}
+{% endfor %}
