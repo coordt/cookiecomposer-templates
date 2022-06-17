@@ -4,11 +4,13 @@
   "friendly_name": "{{ cookiecutter.project_name.replace('-', ' ').title() }}",
   "project_short_description": "",
   "version": "0.1.0",
-  "author": "Data Science Team",
-  "email": "you@chrobinson.com",
-  "github_user": "ch-robinson-internal",
+  "author": "Who am I?",
+  "email": "whoami@existential-crisis.doom",
+  "github_user": "whoami",
+  "_copy_without_render": [
+    ".github/**/*.jinja"
+  ],
   "_prod_requirements": {
-    "elastic-apm": ">=6.6.3",
     "environs": ">=9.3.5"
   },
   "_test_requirements": {
@@ -17,14 +19,12 @@
     "flake8": ">=4.0.1",
     "pre-commit": ">=2.15.0",
     "pytest-cov": ">=3.0.0",
-    "pytest": ">=6.0.0",
-    "twine": ">=3.6.0",
-    "wheel": ">=0.37.0"
+    "pytest": ">=6.0.0"
   },
   "_dev_requirements": {
     "bump2version": ">=1.0.1",
     "git-fame": ">=1.12.2",
-    "gitchangelog": ">=3.0.4",
-    "pystache": ">=0.6.0"
+    "generate-changelog": ">=0.7.6",
+    "pip-tools": ""
   }
 }
