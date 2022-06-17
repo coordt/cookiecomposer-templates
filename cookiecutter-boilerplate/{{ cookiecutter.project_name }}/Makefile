@@ -6,7 +6,7 @@ BRANCH_NAME := $(shell echo $$(git rev-parse --abbrev-ref HEAD))
 SHORT_BRANCH_NAME := $(shell echo $(BRANCH_NAME) | cut -c 1-20)
 PRIMARY_BRANCH_NAME := master
 BUMPVERSION_OPTS :=
-EDIT_CHANGELOG := $(shell if [[ -n $$EDITOR ]] ; then echo "$$EDITOR CHANGELOG.md" ; fi)
+EDIT_CHANGELOG := $(shell if [[ -n $$EDITOR ]] ; then echo "$$EDITOR CHANGELOG.md" ; else echo "true" ; fi)
 
 help:
 	@grep '^[a-zA-Z]' $(MAKEFILE_LIST) | sort | awk -F ':.*?## ' 'NF==2 {printf "\033[36m  %-25s\033[0m %s\n", $$1, $$2}'
@@ -50,7 +50,7 @@ do-release:
 		exit; \
 	fi; \
 	git fetch -p --all; \
-	gitchangelog; \
+	generate-changelog; \
 	$(call EDIT_CHANGELOG); \
 	./tools/gen-codeowners.sh $(SOURCE_DIR); \
 	git add CODEOWNERS; \
