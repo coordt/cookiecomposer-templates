@@ -47,5 +47,5 @@ def initialize_git(project_directory):
         print(result.stdout, result.stderr)
 
 
-if __name__ == "__main__":
-    initialize_git(PROJECT_DIRECTORY)
+# if __name__ == "__main__":
+#     initialize_git(PROJECT_DIRECTORY)

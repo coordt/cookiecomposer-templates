@@ -1,0 +1,25 @@
+{
+  "project_name": "python-project",
+  "project_slug": "{{ cookiecutter.project_name.replace('-', '_') }}",
+  "friendly_name": "{{ cookiecutter.project_name.replace('-', ' ').title() }}",
+  "project_short_description": "",
+  "github_user": "whoami",
+  "_copy_without_render": ["overrides/**/*", "overrides/**/.*"],
+  "_docs_requirements": {
+    "black": ">=23.3.0",
+    "markdown-customblocks":  "",
+    "mdx-truly-sane-lists":  "",
+    "mkdocs": ">=1.4.3",
+    "mkdocs-click":  "",
+    "mkdocs-gen-files": ">=0.5.0",
+    "mkdocs-git-authors-plugin":  "",
+    "mkdocs-git-committers-plugin":  "",
+    "mkdocs-git-revision-date-localized-plugin":  "",
+    "mkdocs-include-markdown-plugin":  "",
+    "mkdocs-literate-nav": ">=0.6.0",
+    "mkdocs-material": ">=9.1.0",
+    "mkdocs-section-index": ">=0.3.5",
+    "mkdocstrings[python]":  "",
+    "python-frontmatter": ""
+  }
+}

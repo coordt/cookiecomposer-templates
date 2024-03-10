@@ -100,3 +100,31 @@ valid_author_tokens:
   - helped-by
   - improved-by
   - original-patch-by
+
+# Rules applied to commits to determine the type of release to suggest.
+release_hint_rules:
+  - match_result: dev
+    branch: ^((?!master|main).)*$
+  - match_result: patch
+    path: pyproject.toml
+    branch: master|main
+  - match_result: patch
+    grouping: Other
+    path: {{ cookiecutter.project_slug }}/*
+    branch: master|main
+  - match_result: patch
+    grouping: Fixes
+    path: {{ cookiecutter.project_slug }}/*
+    branch: master|main
+  - match_result: minor
+    grouping: Updates
+    path: {{ cookiecutter.project_slug }}/*
+    branch: master|main
+  - match_result: minor
+    grouping: New
+    path: {{ cookiecutter.project_slug }}/*
+    branch: master|main
+  - match_result: major
+    grouping: Breaking Changes
+    path: {{ cookiecutter.project_slug }}/*
+    branch: master|main
