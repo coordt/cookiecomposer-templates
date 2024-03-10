@@ -1,4 +1,0 @@
--c prod.txt
-{% for pkg, version in cookiecutter._test_requirements.items() %}
-{{ pkg }}{{ version }}
-{% endfor %}
