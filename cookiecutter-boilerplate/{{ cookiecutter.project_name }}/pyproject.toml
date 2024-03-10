@@ -17,7 +17,8 @@ license = { file = "LICENSE" }
 requires-python = ">=3.8"
 dependencies = [{% for pkg, version in cookiecutter._prod_requirements.items() %}
     "{{ pkg }}{{ version }}",
-{% endfor %}]
+{%- endfor %}
+]
 
 [[project.authors]]
 name = "{{ cookiecutter.author }}"
@@ -35,13 +36,16 @@ repository = "https://github.com/{{ cookiecutter.github_user }}/{{ cookiecutter.
 [project.optional-dependencies]
 dev = [{% for pkg, version in cookiecutter._dev_requirements.items() %}
     "{{ pkg }}{{ version }}",
-{% endfor %}]
+{%- endfor %}
+]
 test = [{% for pkg, version in cookiecutter._test_requirements.items() %}
     "{{ pkg }}{{ version }}",
-{% endfor %}]
+{%- endfor %}
+]
 docs = [{% for pkg, version in cookiecutter._docs_requirements.items() %}
     "{{ pkg }}{{ version }}",
-{% endfor %}]
+{%- endfor %}
+]
 
 [tool.setuptools]
 zip-safe = false
