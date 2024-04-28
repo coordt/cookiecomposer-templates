@@ -1,18 +1,21 @@
 """Generate documentation stubs."""
 from pathlib import Path
-from typing import Set
 
 import mkdocs_gen_files
 
+package_name = "{{cookiecutter.project_slug}}"
+
 nav = mkdocs_gen_files.Nav()
+mod_symbol = '<code class="doc-symbol doc-symbol-nav doc-symbol-module"></code>'
 
-src_root = Path("{{cookiecutter.project_slug}}")
-exclude: Set[str] = set()
+src_root = Path(__file__).parent.parent
+package_root = src_root / package_name
 
-for path in sorted(src_root.rglob("*.py")):
+
+for path in sorted(package_root.rglob("*.py")):
     module_path = path.with_suffix("")
     doc_path = path.with_suffix(".md")
-    full_doc_path = Path("reference", doc_path)
+    full_doc_path = Path("reference/api", doc_path)
 
     parts = tuple(module_path.parts)
 
@@ -31,5 +34,5 @@ for path in sorted(src_root.rglob("*.py")):
 
     mkdocs_gen_files.set_edit_path(full_doc_path, path)
 
-with mkdocs_gen_files.open("reference/SUMMARY.md", "w") as nav_file:
+with mkdocs_gen_files.open("reference/api/SUMMARY.md", "w") as nav_file:
     nav_file.writelines(nav.build_literate_nav())
